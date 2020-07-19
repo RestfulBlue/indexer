@@ -204,5 +204,5 @@ maximum parallel indexation, etc..
 supported. We probably also want to search to phrases which contains space, for example
 we want to find ```lo wo``` in a ```hello world ``` document. In order to do that - we 
 have to split query by space - `lo` and `wo`. After that - we'll find documents that contains
-both them and merge inverted index of their positions with shifting. We shift ```lo``` inverted index
+both them and merge inverted indexes of their positions with shifting. We shift ```lo``` inverted index
 by 3 to the right and then intersect it with ```wo``` inverted index.
