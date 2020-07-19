@@ -1,7 +1,7 @@
 # Simple fulltext indexer
 
 This repo contains simple fulltext indexer, which supports following operations :
-1. Indexing source input, analyze and tokenize it
+1. Indexing source input, analyzing and tokenizing it
 1. Parallel writes and reads
 1. Atomic writes and reads, read committed isolation
 1. Transactional commits and rollbacks across multiple documents
@@ -206,3 +206,7 @@ we want to find ```lo wo``` in a ```hello world ``` document. In order to do tha
 have to split query by space - `lo` and `wo`. After that - we'll find documents that contains
 both them and merge inverted indexes of their positions with shifting. We shift ```lo``` inverted index
 by 3 to the right and then intersect it with ```wo``` inverted index.
+1. Add a lot of inputs, analyzers and tokenizers. JDBCInput, HttpInput, JavaAnalyzer, KSkipNGramTokenizer, etc
+1. Reduce memory and performance footprint. Current implementation has a LOT of a low performant places. For example
+streaming data from input using flow probably has a lot of performance issue, especially wrapping source byte buffer to 
+string and then create new strings....
