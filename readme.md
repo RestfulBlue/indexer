@@ -140,48 +140,48 @@ searchForTermListAndValidate(
 
 ```kotlin
 
-            val index = RAMIndex()
-            val writer = AtomicIndexWriter(index)
+val index = RAMIndex()
+val writer = AtomicIndexWriter(index)
 
-            val firstIndexingLock = Mutex(true)
-            val secondIndexingLock = Mutex(true)
+val firstIndexingLock = Mutex(true)
+val secondIndexingLock = Mutex(true)
 
-            val latch = CountDownLatch(2)
-            
-            val firstJob = GlobalScope.launch {
-                writer.inTransaction {
-                    index(Dataset.GOAT.getTermSource())
-                    index(Dataset.CAT.getTermSource())
-                    // index data, but don't commit it
-                    latch.countDown()
-                    firstIndexingLock.withLock { }
-                }
-            }
+val latch = CountDownLatch(2)
 
-            val secondJob = GlobalScope.launch {
-                writer.inTransaction {
-                    index(Dataset.CATTLE.getTermSource())
-                    index(Dataset.SHEEP.getTermSource())
-                    // index data, but don't commit it
-                    latch.countDown()
-                    secondIndexingLock.withLock { }
-                }
-            }
+val firstJob = GlobalScope.launch {
+    writer.inTransaction {
+        index(Dataset.GOAT.getTermSource())
+        index(Dataset.CAT.getTermSource())
+        // index data, but don't commit it
+        latch.countDown()
+        firstIndexingLock.withLock { }
+    }
+}
 
-            latch.await()
-            // nothing is committed yet, we won't see any data
-            searchForTermListAndValidate(AtomicIndexReader(index), listOf("milk"), emptySet())
+val secondJob = GlobalScope.launch {
+    writer.inTransaction {
+        index(Dataset.CATTLE.getTermSource())
+        index(Dataset.SHEEP.getTermSource())
+        // index data, but don't commit it
+        latch.countDown()
+        secondIndexingLock.withLock { }
+    }
+}
 
-            // commit first transaction, now we'll see GOAT dataset
-            firstIndexingLock.unlock()
-            firstJob.join()
-            searchForTermListAndValidate(AtomicIndexReader(index), listOf("milk"), setOf(Dataset.GOAT))
+latch.await()
+// nothing is committed yet, we won't see any data
+searchForTermListAndValidate(AtomicIndexReader(index), listOf("milk"), emptySet())
 
-            // cancel second transaction. We won't see any differences and all updates during second transaction
-            // indexing will be reverted
-            secondJob.cancel()
-            secondJob.join()
-            secondIndexingLock.unlock()
-            searchForTermListAndValidate(AtomicIndexReader(index), listOf("milk"), setOf(Dataset.GOAT))
+// commit first transaction, now we'll see GOAT dataset
+firstIndexingLock.unlock()
+firstJob.join()
+searchForTermListAndValidate(AtomicIndexReader(index), listOf("milk"), setOf(Dataset.GOAT))
+
+// cancel second transaction. We won't see any differences and all updates during second transaction
+// indexing will be reverted
+secondJob.cancel()
+secondJob.join()
+secondIndexingLock.unlock()
+searchForTermListAndValidate(AtomicIndexReader(index), listOf("milk"), setOf(Dataset.GOAT))
 
 ```
