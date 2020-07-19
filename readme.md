@@ -185,3 +185,24 @@ secondIndexingLock.unlock()
 searchForTermListAndValidate(AtomicIndexReader(index), listOf("milk"), setOf(Dataset.GOAT))
 
 ```
+
+
+# Future work
+
+This version is simple and has a lot to add :
+1. Metrics and logging
+1. Index persisting - Should be implemented index persister, which will
+accept ReadableIndex and persist it to disk. It has a lot to implement - 
+delta encoded reverted indexes, roaring bitmap, memory mappings, offset management.
+After index persisted to disk - it becomes immutable
+1. Index merger - Index becomes immutable after disk persistence. In order to update 
+it we will just merge it with other indexes. To do that we need to implement index
+merger, which will accept two ReadableIndexes and produce a new one
+1. Resource management - in memory bytes limiters,
+maximum parallel indexation, etc.. 
+1. Extend query language - currently only simple selection by term and AND filter 
+supported. We probably also want to search to phrases which contains space for example
+we want to find ```lo wo``` in a ```helo world ``` document. In order to do so we 
+have to split query term by space - lo and wo. After that we find documents that contains
+both them and merge inverted index of positions with shifting. We shift ```lo``` inverted index
+by 3 to the right and then intersect it with ```wo``` inverted index.
