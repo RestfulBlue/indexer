@@ -16,7 +16,7 @@ This repo contains simple fulltext indexer, which supports following operations 
 
 # Usage
 
-All the usage examples located in an integration test, RAMIndexIt
+All the usage examples are located in an integration tests, for example RAMIndexIt
 
 ## Simple indexing 
 
