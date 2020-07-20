@@ -2,6 +2,16 @@ package org.indexer.index.inverted
 
 import kotlin.math.max
 
+/**
+ * Creates new iterator which will return intersection of indexes
+ * For example if we have
+ * 1 2 4 5 6 7 8
+ * and
+ * 1 3 5 8
+ * result iterator would be
+ * 1 5 8
+ *
+ */
 class IntersectedInvertedIndex(private val sets: List<ReadableInvertedIndex<Int>>) : ReadableInvertedIndex<Int> {
 
     override fun iterator(): Iterator<Int> {
@@ -95,7 +105,7 @@ class IntersectedInvertedIndex(private val sets: List<ReadableInvertedIndex<Int>
 
 private data class DocumentSetCursor(var currentValue: Int, val iterator: Iterator<Int>)
 
-object EmptyCursor : Iterator<Int> {
+private object EmptyCursor : Iterator<Int> {
     override fun hasNext(): Boolean {
         return false
     }

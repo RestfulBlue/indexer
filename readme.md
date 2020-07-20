@@ -68,7 +68,7 @@ val reader = AtomicIndexReader(index)
 
 reader
     .search(
-        // search for all the documents which contains control term
+        // search for all the documents which contain control term
         TermFilter("control"),
         // extract positions of control term from document
         DefaultDocumentExtractor(listOf("control"))
@@ -189,24 +189,27 @@ searchForTermListAndValidate(AtomicIndexReader(index), listOf("milk"), setOf(Dat
 
 # Future work
 
-This version is simple and has a lot to add :
+This version is simple and has a lot to be added :
 1. Metrics and logging
-1. Index persisting - Should be implemented index persister, which will
-accept ReadableIndex and persist it to disk. It has a lot to implement - 
-delta encoded reverted indexes, roaring bitmap, memory mappings, offset management.
-After index persisted to disk - it becomes immutable
+1. Persistence. Index persisting should be implemented. It will accept ReadableIndex and 
+persist it to disk. It has a lot to be implemented - delta encoded reverted indexes, 
+roaring bitmap, memory mappings, offset management. After index persisted to disk - 
+it becomes immutable
 1. Index merger - Index becomes immutable after it persisted to disk. In order to update 
 it we will just merge it with other indexes. To do that we need to implement index
 merger, which will accept two ReadableIndexes and produce a new one
 1. Resource management - in memory bytes limiters,
 maximum parallel indexation, etc.. 
 1. Extend query language - currently only simple selection by term and AND filter 
-supported. We probably also want to search to phrases which contains space, for example
+supported. We probably also want to search for phrases which contains space, for example
 we want to find ```lo wo``` in a ```hello world ``` document. In order to do that - we 
-have to split query by space - `lo` and `wo`. After that - we'll find documents that contains
-both them and merge inverted indexes of their positions with shifting. We shift ```lo``` inverted index
+have to split query by space - `lo` and `wo`. After that - we'll find documents that contain
+both of them and merge inverted indexes of their positions with shifting. We shift ```lo``` inverted index
 by 3 to the right and then intersect it with ```wo``` inverted index.
-1. Add a lot of inputs, analyzers and tokenizers. JDBCInput, HttpInput, JavaAnalyzer, KSkipNGramTokenizer, etc
+1. Add a lot of inputs, analyzers and tokenizers. JDBCInput, HttpInput, JavaAnalyzer, HTMLAnalyzer,
+ KSkipNGramTokenizer, etc
 1. Reduce memory and performance footprint. Current implementation has a LOT of a low performant places. For example
-streaming data from input using flow probably has a lot of performance issue, especially wrapping source byte buffer to 
-string and then create new strings....
+streaming data from input using flow probably has a lot of performance issues, especially wrapping source byte buffer to 
+string and should be translated to save more 'row' processing. Also a lot of place can be optimized adding 
+append-only data structures, but it probably won't fit with transactions
+

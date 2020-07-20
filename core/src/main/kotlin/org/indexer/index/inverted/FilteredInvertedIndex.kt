@@ -1,5 +1,8 @@
 package org.indexer.index.inverted
 
+/**
+ * Filter source iterator using specified filter
+ */
 class FilteredInvertedIndex<T>(private val index: ReadableInvertedIndex<T>, private val filter: (T) -> Boolean) :
     ReadableInvertedIndex<T> {
 

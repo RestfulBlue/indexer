@@ -7,6 +7,7 @@ import org.indexer.index.term.ReadWriteTermStorage
 import org.indexer.index.transaction.RAMTransactionStorage
 import org.indexer.index.transaction.TransactionStorage
 
+// @toDo replace with factory and
 class RAMIndex : TransactionalIndex {
 
     private val documentStorage = RAMDocumentStorage()
