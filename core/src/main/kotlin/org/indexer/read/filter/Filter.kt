@@ -8,6 +8,6 @@ interface Filter {
     /**
      * Creates inverted index using specified index
      */
-    fun filter(index : ReadableIndex) : ReadableInvertedIndex<Int>
+    fun filter(index: ReadableIndex): ReadableInvertedIndex<Int>
 
 }

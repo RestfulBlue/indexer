@@ -12,11 +12,11 @@ interface ReadableIndex {
     /**
      * @return storage which supports read operations
      */
-    fun documentStorage() : ReadableDocumentStorage
+    fun documentStorage(): ReadableDocumentStorage
 
     /**
      * @return storage which supports read operations
      */
-    fun termStorage() : ReadableTermStorage
+    fun termStorage(): ReadableTermStorage
 
 }

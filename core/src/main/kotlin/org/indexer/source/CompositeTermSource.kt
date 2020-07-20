@@ -7,7 +7,7 @@ import org.indexer.document.TermInfo
 import org.indexer.tokenization.Tokenizer
 
 class CompositeTermSource(
-    private val source : Source,
+    private val source: Source,
     private val input: Input,
     private val analyzer: Analyzer,
     private val tokenizer: Tokenizer

@@ -6,9 +6,9 @@ import org.indexer.index.inverted.ReadWriteInvertedIndex
 import org.indexer.index.inverted.ReadableInvertedIndex
 import java.util.concurrent.ConcurrentHashMap
 
-class RAMTermStorage : ReadWriteTermStorage{
+class RAMTermStorage : ReadWriteTermStorage {
 
-    private val data : MutableMap<String,ReadWriteInvertedIndex<Int>> = ConcurrentHashMap()
+    private val data: MutableMap<String, ReadWriteInvertedIndex<Int>> = ConcurrentHashMap()
 
     override fun getTermIndex(term: String): ReadableInvertedIndex<Int> {
         return data[term] ?: EmptyInvertedIndex()
@@ -24,7 +24,7 @@ class RAMTermStorage : ReadWriteTermStorage{
         data.compute(term) { _, index ->
             index?.remove(documentId)
             // remove inverted index if it's became empty ( for example during transaction rollback)
-            if(index?.size() == 0){
+            if (index?.size() == 0) {
                 return@compute null
             }
             return@compute index

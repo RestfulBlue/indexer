@@ -9,11 +9,11 @@ interface TermSource {
     /**
      * @return source of this terms
      */
-    fun getSource() : Source
+    fun getSource(): Source
 
     /**
      * @return processed flow of terms, which passed analyzation and tokenization
      */
-    suspend fun getTermFlow() : Flow<TermInfo>
+    suspend fun getTermFlow(): Flow<TermInfo>
 
 }

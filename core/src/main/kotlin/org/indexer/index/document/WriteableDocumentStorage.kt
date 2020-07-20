@@ -22,12 +22,12 @@ interface WriteableDocumentStorage {
      * @param term added term
      * @param offset position of term in the document
      */
-    suspend fun addTerm(documentId: Int, term : String, offset : Long)
+    suspend fun addTerm(documentId: Int, term: String, offset: Long)
 
     /**
      * removes document from storage
      * @param documentId id of the document
      */
-    suspend fun removeDocument(documentId : Int)
+    suspend fun removeDocument(documentId: Int)
 
 }

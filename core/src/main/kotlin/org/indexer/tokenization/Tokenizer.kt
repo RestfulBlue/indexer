@@ -11,6 +11,6 @@ interface Tokenizer {
      * It could also generate k-skip-n-gram and so on ( but such logic can also be achieved
      * on a read level, deconstructing query term to such k-skip-n-grams
      */
-    suspend fun tokenize(data : Flow<TermInfo>) : Flow<TermInfo>
+    suspend fun tokenize(data: Flow<TermInfo>): Flow<TermInfo>
 
 }

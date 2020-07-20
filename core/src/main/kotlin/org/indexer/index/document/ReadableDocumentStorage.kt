@@ -15,18 +15,18 @@ interface ReadableDocumentStorage {
      * @param documentId id of the document which need to be found
      * @return document
      */
-    suspend fun getDocumentById(documentId : Int) : Document
+    suspend fun getDocumentById(documentId: Int): Document
 
     /**
      * @param documentId document to scan
      * @return iterator of all terms, which are present in this document
      */
-    suspend fun getDocumentTerms(documentId: Int) : Iterator<String>
+    suspend fun getDocumentTerms(documentId: Int): Iterator<String>
 
     /**
      * @param documentId document to look at
      * @param term - term used to search
      * @return inverted index with offset of all occurrances of specified term
      */
-    suspend fun getDocumentTermOffsets(documentId : Int, term : String) : ReadableInvertedIndex<Long>
+    suspend fun getDocumentTermOffsets(documentId: Int, term: String): ReadableInvertedIndex<Long>
 }

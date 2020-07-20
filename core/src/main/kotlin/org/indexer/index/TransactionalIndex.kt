@@ -11,6 +11,6 @@ interface TransactionalIndex : ReadWriteIndex {
     /**
      * @return transaction storage for specified rw index
      */
-    fun transactionStorage() : TransactionStorage
+    fun transactionStorage(): TransactionStorage
 
 }

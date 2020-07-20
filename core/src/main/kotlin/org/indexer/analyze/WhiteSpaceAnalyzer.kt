@@ -7,16 +7,16 @@ import org.indexer.document.TermInfo
 
 class WhiteSpaceAnalyzer : Analyzer {
 
-    private var lastIndex : Long = 0
+    private var lastIndex: Long = 0
     private val builder = StringBuilder()
 
-    override fun analyze(flow: Flow<TermInfo>): Flow<TermInfo> = flow{
+    override fun analyze(flow: Flow<TermInfo>): Flow<TermInfo> = flow {
         flow.collect {
-            for(i in it.term.indices){
+            for (i in it.term.indices) {
                 val symb = it.term[i]
 
-                if(symb == ' '){
-                    emit(TermInfo(builder.toString(),lastIndex))
+                if (symb == ' ') {
+                    emit(TermInfo(builder.toString(), lastIndex))
                     lastIndex += builder.length + 1
                     builder.clear()
                 } else {
@@ -25,7 +25,7 @@ class WhiteSpaceAnalyzer : Analyzer {
             }
         }
 
-        if(builder.isNotEmpty()){
+        if (builder.isNotEmpty()) {
             emit(TermInfo(builder.toString(), lastIndex))
         }
     }

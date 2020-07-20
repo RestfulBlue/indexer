@@ -6,7 +6,7 @@ class RAMInvertedIndex<T> : ReadWriteInvertedIndex<T> {
 
     // our iterator should return ordered data in order
     // to merge it with disk based index ( which could be serial only )
-    private val data : MutableSet<T> = ConcurrentSkipListSet<T>()
+    private val data: MutableSet<T> = ConcurrentSkipListSet<T>()
 
     override fun add(value: T) {
         data.add(value)

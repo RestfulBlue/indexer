@@ -12,6 +12,6 @@ interface ReadableTermStorage {
      * @param term term to look for
      * @return inverted index for specified term
      */
-    fun getTermIndex(term : String) : ReadableInvertedIndex<Int>
+    fun getTermIndex(term: String): ReadableInvertedIndex<Int>
 
 }
