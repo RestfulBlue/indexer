@@ -74,7 +74,6 @@ reader
         DefaultDocumentExtractor(listOf("control"))
     )
     .collect {
-        // input such information 
         print("Term 'control' was found in a document ${it.document.source.name} at positions :")
         for (pos in it.terms["control"]?.iterator()!!) {
             print("${pos} ")
